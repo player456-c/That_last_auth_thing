@@ -28,10 +28,46 @@ router.get("/",(req,res)=>{
     res.send(JSON.stringify({users},null,4));
 });
 
+function getDateFromString(strDate) {
+    let [dd,mm,yyyy] = strDate.split('-')
+    return new Date(yyyy+"/"+mm+"/"+dd);
+}
+    
+// console.log(sorted_users);
+router.get("/sort",(req,res)=>{
+    let sorted_users=users.sort(function(a, b) {
+        let d1 = getDateFromString(a.DOB);
+        let d2 = getDateFromString(b.DOB);
+            return d1-d2;
+    });
+    res.send(sorted_users);
+});
+
 // GET by specific ID request: Retrieve a single user with email ID
 router.get("/:email",(req,res)=>{
     let email=req.params.email;
     let filtered_users=users.filter((user)=>user.email===email);
+    res.send(filtered_users);
+});
+
+// GET by specific ID request: Retrieve a single user with first name ID
+router.get("/firstName/:firstName",(req,res)=>{
+    let firstName=req.params.firstName;
+    let filtered_users=users.filter((user)=>user.firstName===firstName);
+    res.send(filtered_users);
+});
+
+// GET by specific ID request: Retrieve a single user with last name ID
+router.get("/lastName/:lastName",(req,res)=>{
+    let lastName=req.params.lastName;
+    let filtered_users=users.filter((user)=>user.lastName===lastName);
+    res.send(filtered_users);
+});
+
+// GET by specific ID request: Retrieve a single user with DOB ID
+router.get("/:DOB",(req,res)=>{
+    let DOB=req.params.DOB;
+    let filtered_users=users.filter((user)=>user.DOB===DOB);
     res.send(filtered_users);
 });
 
