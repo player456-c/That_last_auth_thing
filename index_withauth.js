@@ -6,7 +6,11 @@ const session = require('express-session')
 const app = express();
 const PORT =5000;
 
-app.use(session({secret:"fingerpint",resave: true, saveUninitialized: true}))
+app.use(session({
+    secret:"fingerpint",
+    resave: true,
+    saveUninitialized: true
+}))
 
 app.use(express.json());
 
@@ -20,8 +24,7 @@ app.use("/user", (req,res,next)=>{
            if(!err){
                req.user = user;
                next();
-           }
-           else{
+           }else{
                return res.status(403).json({message: "User not authenticated"})
            }
         });
@@ -34,6 +37,7 @@ app.use("/user", routes);
 
 app.post("/login", (req,res) => {
     const user = req.body.user;
+    //console.log(req);
     if (!user) {
         return res.status(404).json({message: "Body Empty"});
     }
